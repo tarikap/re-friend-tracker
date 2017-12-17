@@ -29,7 +29,22 @@ export class GuiModel {
                             "width": 1,
                             "required": true
                         },
-                        {
+						{
+							"id": "nickname",
+							"type": "text",
+							"name": "Nickname",
+							"width": 2,
+							"required": true
+						},
+						{
+							"id": "group",
+							"type": "autocomplete",
+							"name": "Group",
+							"data": ["Study", "Family", "School"],
+							"form": "GroupForm",
+							"width": 2
+						},
+						{
                             "id":   "location",
                             "type": "autocomplete",
                             "name": "Location",
@@ -37,6 +52,14 @@ export class GuiModel {
                             "form": "GroupForm",
                             "width": 2
                         },
+						{
+							"id": "activity",
+							"type": "autocomplete",
+							"name": "Activity",
+							"data": [],
+							"form": "ActivityForm",
+							"width": 2
+						},
                         {
                             "id": "evtBirth",
                             "type": "date",
@@ -76,6 +99,14 @@ export class GuiModel {
                             "width": 2,
                             "required": true
                         },
+						{
+                            "id": "comment",
+                            "type": "text",
+                            "name": "Comments",
+                            "width": 2,
+                            "height": 4,
+                            "maxLength": 5000,
+                        },
                         {
                             "type": "deleteButton",
                             "name": "Delete"
@@ -89,7 +120,93 @@ export class GuiModel {
                             "name": "Ok"
                         }
                     ]
-                }
+                },
+				{
+					"id": "GroupForm",
+					"title": "Group",
+					"formFieldList": [
+						{
+							"id": "name",
+							"type": "text",
+							"name": "GroupName",
+							"width": 2,
+							"required": true
+						},
+						{
+                            "id": "crDate",
+                            "type": "date",
+                            "name": "CreationDate",
+                            "width": 2
+                        },
+						{
+                            "id": "comment",
+                            "type": "text",
+                            "name": "Comments",
+                            "width": 2,
+                            "height": 4,
+                            "maxLength": 5000,
+                        },
+						{
+							"type": "cancelButton",
+							"name": "Delete"
+						},
+						{
+							"type": "cancelButton",
+							"name": "Cancel"
+						},
+						{
+							"type": "okButton",
+							"name": "Ok"
+						}
+					]
+				},			
+				{
+					"id": "ActivityForm",
+					"title": "Activity",
+					"formFieldList": [
+						{
+							"id": "name",
+							"type": "text",
+							"name": "ActivityName",
+							"width": 2,
+							"required": true
+						},
+						{
+                            "id": "date",
+                            "type": "date",
+                            "name": "Date",
+                            "width": 2
+                        },
+						{
+							"id": "location",
+							"type": "autocomplete",
+							"name": "Location",
+							"data": ["Movie", "Eating Pizza", "Running"],
+							"form": "LocationForm",
+							"width": 2
+						},
+						{
+                            "id": "comment",
+                            "type": "text",
+                            "name": "Comments",
+                            "width": 2,
+                            "height": 4,
+                            "maxLength": 5000,
+                        },
+						{
+							"type": "cancelButton",
+							"name": "Delete"
+						},
+						{
+							"type": "cancelButton",
+							"name": "Cancel"
+						},
+						{
+							"type": "okButton",
+							"name": "Ok"
+						}
+					]
+				}			
             ],
             "pageList": [
                 {
@@ -100,16 +217,23 @@ export class GuiModel {
                             "type": "button",
                             "name": "Friends",
                             "icon": "fa-user",
-                            "color": "blue",
+                            "color": "red",
                             "page": "friendspage",
                         },
                         {
                             "type": "button",
                             "name": "Location",
-                            "icon": "fa-cubes",
-                            "color": "yellow",
+                            "icon": "fa-location-arrow",
+                            "color": "midnight-blue",
                             "page": "locationspage",
                         },
+						{
+							"type": "button",
+							"name": "Groups",
+							"icon": "fa-group",
+							"color": "green-sea",
+							"page": "groupspage",
+						},
                     ]
                 },
                 {
@@ -121,22 +245,20 @@ export class GuiModel {
                         {
                             "type": "newButton",
                             "name": "NewFriend",
-                            "icon": "fa-user",
-                            "color": "green",
+                            "icon": "fa-user-plus",
+                            "color": "red",
                             "form": {
                                 "form": "FriendForm"
                             }
                         },
                         {
                             "type": "list",
-                            "icon": "fa-user",
-                            "color": "blue",
+                            "icon": "fa-user-o",
+                            "color": "midnight-blue",
                             "search": true,
                             "data": [ { name: "Anton Amacker" }, { name: "Britta Beavers"} ],
-                            "form": {
-                                "form": "FriendForm"
-                            }
-                        },
+                            "page": "activitypage"
+	                    },
                     ]
                 },
                 {
@@ -149,15 +271,15 @@ export class GuiModel {
                             "type": "newButton",
                             "name": "NewLocation",
                             "icon": "fa-home",
-                            "color": "green",
+                            "color": "midnight-blue",
                             "form": {
                                 "form": "LocationForm"
                             }
                         },
                         {
                             "type": "list",
-                            "icon": "fa-home",
-                            "color": "blue",
+                            "icon": "fa-map",
+                            "color": "green-sea",
                             "search": true,
                             "data": [ { name: "Adelboden" }, { name: "Winterthur" }, { name: "Zinal"}, { name: "Zürich"} ],
                             "form": {
@@ -165,10 +287,73 @@ export class GuiModel {
                             }
                         },
                     ]
-                }
-            ]
-        }
-    };
+                },
+				{
+					"id": "groupspage",
+					"elementList": [
+						{
+							"type": "backbutton",
+						},
+						{
+							"type": "newButton",
+							"name": "NewGroup",
+							"icon": "fa-group",
+							"color": "green-sea",
+							"form": {
+								"form": "GroupForm"
+							}
+						},
+						{
+							"type": "list",
+							"icon": "fa-circle-o",
+							"color": "clouds",
+							"search": true,
+							"data": [ {name: "Study"}, {name: "Family"}, {name: "School"}],
+							"form": {
+								"form": "GroupForm"
+							}
+						},
+					]	
+				},
+				{
+					"id": "activitypage",
+					"elementList": [
+						{
+							"type": "backbutton",
+						},
+						{
+							"type": "newButton",
+							"name": "EditFriend",
+							"icon": "fa-user",
+							"color": "red",
+							"form": {
+								"form": "FriendForm"
+							}
+						},
+						{
+							"type": "newButton",
+							"name": "NewActivity",
+							"icon": "fa-spinner",
+							"color": "clouds",
+							"form": {
+								"form": "ActivityForm"
+							}
+						},
+						{
+							"type": "list",
+							"icon": "fa-spinner",
+							"color": "midnight-blue",
+							"search": true,
+							"data": [ {name: "Movie"}, {name: "Eating Pizza"}, {name: "Running"}],
+							"form": {
+								"form": "ActivityForm"
+							}
+						},
+					]	
+				}
+			]
+		}	
+	};
 
 
     get guiModel() {
